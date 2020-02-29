@@ -34,7 +34,7 @@ function Set-ParentLocation([string]$file)
 
 function Initialize-Environment
 {
-    $env:LEIN_VERSION = '2.9.1'
+    $env:LEIN_VERSION = '2.9.3-SNAPSHOT'
     $env:SNAPSHOT = if($env:LEIN_VERSION -like '*-SNAPSHOT'){'YES'}else{'NO'} #TODO: Still needed?
     $env:ORIGINAL_PWD = $PWD -replace '\\$','\\'
     Set-ParentLocation project.clj
@@ -134,6 +134,7 @@ function Invoke-Java
     if(!$env:JVM_OPTS){$env:JVM_OPTS = $env:JAVA_OPTS}
     $JavaArgs = @(
         '-client',$env:LEIN_JVM_OPTS,
+        '-Dfile.encoding=UTF-8',
         "`"-Dclojure.compile.path=$PWD/target/classes`"", #TODO: Add this line only when we're initializing from source
         "`"-Dleiningen.original.pwd=$env:ORIGINAL_PWD`"",
         '-cp',$env:CLASSPATH,
